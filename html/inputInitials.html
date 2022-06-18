@@ -5,11 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Code Quiz!</title>
 </head>
 
 <body>
+    <header class="flexHeader">
+        <!--flex this-->
+        <div class="highscr">
+            <a href="./html/scores.html">View High Scores</a>
+        </div>
+        <div class="time" id="timer">
+            <!--flex this-->
+            <h3>Time:</h3> <!-- use js to make another <h3> here append to id"timer" with class='countdown' -->
+        </div>
+    </header>
+
     <mainclass="hs-input">
         <!--flex direction: column-->
         <h1>All Done!</h1>
@@ -20,7 +31,7 @@
         <div class="initials">
             <label for="init">Enter initials</label>
             <input type="text" id="init" name="init">
-            <button id="clear">Submit</button>
+            <button id="submit">Submit</button>
         </div>
 
         </main>

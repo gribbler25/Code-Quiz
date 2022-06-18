@@ -5,54 +5,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Code Quiz!</title>
 </head>
 
 <body>
-    <!-- this contains the view high scores anchor link in the left corner, and timer in the right corner -->
-    <header class="flexHeader">
-        <!--flex this-->
-        <div class="highscr">
-            <a href="index.html">View High Scores</a>
-        </div>
-        <div class="time" id="timer">
+    <container id="content">
+        <!-- this contains the view high scores anchor link in the left corner, and timer in the right corner -->
+        <header class="flexHeader">
             <!--flex this-->
-            <h3>Time:</h3> <!-- use js to make another <h3> here append to id"timer" with class='countdown' -->
-        </div>
-    </header>
+            <div class="highscr">
+                <a href="./html/scores.html">View High Scores</a>
+            </div>
+            <div class="time" id="timer">
+                <!--flex this-->
+                <h3>Time:</h3> <!-- use js to make another <h3> here append to id"timer" with class='countdown' -->
+            </div>
+        </header>
 
-    <!-- this contains the intro/ start, the quiz questions cycle, and the all done/enter intials. -->
-    <main class="start-container">
-        <!--will need a new js created <div> here to contain the quiz ?'s, as this div is changed to display:none'-->
+        <!-- this contains the intro/ start, the quiz questions cycle, and the all done/enter intials. -->
+        <main class="start-container" id="start-container">
+            <!--will need a new js created <div> here to contain the quiz ?'s, as this div is changed to display:none'-->
+            <div id="questions">
 
-        <div class="intro-start" id="questions">
-            <h1>
-                Coding Quiz Challenge:
-            </h1>
-            <p>
-                Try to answer as many questions as you can in 60 seconds and log your high scores.
-            </p>
-        </div>
+            </div>
+            <ul id="list">
 
-        <div class="start" id="answers">
-            <!-- contents will be display:none during quiz with js-created <ul>/<li>'s to replace this'-->
-            <button id="start-quiz">
-                Start Quiz!
-            </button>
-        </div>
+            </ul>
+            <div id="intro-start">
+                <h1>
+                    Coding Quiz Challenge:
+                </h1>
+                <p>
+                    Try to answer as many questions as you can in 60 seconds and log your high scores.
+                </p>
 
-    </main>
 
-    <footer class="right-answer">
-        <!-- this is for the Correct/ Wrong text to visibily: visable upon click on anwers above, otherwise hidden with css. -->
-        <div class="correct">
-            <h2>Correct!</h2>
-        </div>
-        <div class="wrong">
-            <h2>Wrong!</h2>
-        </div>
-    </footer>
+                <!-- contents will be display:none during quiz with js-created <ul>/<li>'s to replace this'-->
+                <button id="start-quiz">
+                    Start Quiz!
+                </button>
+            </div>
+        </main>
+
+        <footer class="right-answer">
+            <!-- this is for the Correct/ Wrong text to visibily: visable upon click on anwers above, otherwise hidden with css. -->
+            <div class="correct">
+                <h2>Correct!</h2>
+            </div>
+            <div class="wrong">
+                <h2>Wrong!</h2>
+            </div>
+        </footer>
+    </container>
 </body>
 <script type="text/javascript" src="./assets/JS/script.js"></script>
 
