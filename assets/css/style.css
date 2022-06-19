@@ -6,4 +6,40 @@
 
 body {
     background-color: bisque;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.time {
+    display: flex;
+}
+
+.u-list {
+    list-style-type: none;
+}
+
+.list-item {
+    font-size: 1.2em;
+    height: fit-content;
+    width: 50%;
+    background-color: blue;
+    border: 2px black solid;
+    margin: 1.0em;
+}
+
+.start-container {
+    display: block;
+}
+
+.intro-start {
+    display: block;
+}
+
+.time {
+    display: flex;
+    justify-content: right;
+    margin-right: 1.0em;
+}
+
+.high-score {
+    display: none;
 }

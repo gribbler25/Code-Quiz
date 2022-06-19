@@ -24,15 +24,29 @@
         </header>
 
         <!-- this contains the intro/ start, the quiz questions cycle, and the all done/enter intials. -->
+
+        <!--a div here to contain high score data, hidden until initials filled in...-->
+        <section class="high-score">
+            <h1> High Scores</h1>
+            <input type="text" id="hs" name="hs">
+
+            <div class="buttons">
+                <button id="back">Go Back</button>
+                <button id="clear">Clear High Scores</button>
+            </div>
+        </section>
+
         <main class="start-container" id="start-container">
             <!--will need a new js created <div> here to contain the quiz ?'s, as this div is changed to display:none'-->
-            <div id="questions">
+            <div id="questions" class="questions">
 
             </div>
-            <ul id="list">
+
+            <ul id="list" class="u-list">
+                <!-- div for answers -->
 
             </ul>
-            <div id="intro-start">
+            <div class="intro-start" id="intro-start">
                 <h1>
                     Coding Quiz Challenge:
                 </h1>
@@ -49,12 +63,8 @@
         </main>
 
         <footer class="right-answer">
-            <!-- this is for the Correct/ Wrong text to visibily: visable upon click on anwers above, otherwise hidden with css. -->
-            <div class="correct">
-                <h2>Correct!</h2>
-            </div>
-            <div class="wrong">
-                <h2>Wrong!</h2>
+            <div class="correct" id="correct">
+
             </div>
         </footer>
     </container>

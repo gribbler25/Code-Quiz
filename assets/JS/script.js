@@ -41,6 +41,7 @@ var User = //use this object to store high score/initials in local storage
 var pageContentEl = document.querySelector("#content");//container for listening for index.html content changes
 var startBtn = document.querySelector("#start-quiz");//Start BUTTON on index.html
 var submitScr = document.querySelector("#submit");//the sumbit BUTTON on inputinitials.html
+
 var timerEl = document.querySelector("#timer");//the TIMER DIV 
 var countdownEl = document.createElement("h3");//H3 ELEMENT for the COUNTER value
 
@@ -48,13 +49,17 @@ var quizEl = document.querySelector("#start-container");//container for QUIZ CON
 var questionEl = document.querySelector("#questions");//DIV FOR QUESTIONS
 var ulistEl = document.querySelector("#list");//<UL> ELEMENT
 
-var counter = 60;
+
+var footerEl = document.querySelector("#correct");//FOOTER <DIV> for correct/ wrong content
+
+var counter = 10;
 var qIndex = 0;
 
 var startQuiz = function () {
     //RESET values each re-start
-    counter = 60;
+    counter = 10;
     qIndex = 0;
+    document.querySelector(".intro-start").style.display = "none";
 
     createCount();
 
@@ -86,31 +91,57 @@ var decrement = function () {
 };
 
 var createQuiz = function () { //function fromSTART to bring quiz content to the index.html page
-    var question = document.createElement("h2");
-    while (qIndex < questions.length) {
-        if (counter == 0) {
-            //go to the initials.html page
-        }
-        var currentQuest = questions[qIndex];//set the questions[index] to a variable
-        question.textContent = "";
-        question.textContent = currentQuest.title;
-        questionEl.appendChild(question);
-
+    var questionH2 = document.createElement("h2");
+    if (counter > 0) {
+        var currentQuest = questions[qIndex];//set the questions[index], the current queston, to a variable
+        questionH2.textContent = "";
+        questionH2.textContent = currentQuest.title;
+        questionEl.appendChild(questionH2);
+        //debugger;
         for (var i = 0; i < currentQuest.choices.length; i++) {
-            var listEl = document.createElement("li");
+            var listEl = document.createElement("li");//create the <LI> that holds the ANSWER choice
             listEl.className = "list-item";
             listEl.textContent = currentQuest.choices[i];
+            if (listEl.textContent.match(currentQuest.answer)) {//if content of the choices matches the content of the current index answer property..
+                listEl.setAttribute("data-id", "right")//then give a special attribute for marking correct answer
+            }
             ulistEl.appendChild(listEl);
-
         }
-
+        // choiceHandler();
+        listEl.addEventListener("click", function () {
+            var correctTxt = document.createElement("h3");
+            var isId = listEl.getAttribute("data-id");
+            if (isId = "right") {//if there is a special data id attribute, "right"...
+                correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
+                footerEl.appendChild(correctTxt);
+            }
+            else {
+                correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
+                footerEl.appendChild(correctTxt);
+            }
+        });
         qIndex++;
-    };
-    //go to inputinitials.html
+        //createQuiz();
+    }
+    else {
+        window.location.replace("./html/inputinitials.html")
+    }
 };
-//createCount();
 
-//
+
+
+// var choiceHandler = function () {
+//     var correctTxt = document.createElement("h3");
+//     var isId = listEl.getAttribute("data id");
+//     if (isId) {
+//         correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
+//         footerEl.appendChild(correctTxt);
+//     }
+//     else {
+//         correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
+//     }
+// };
+
 startBtn.addEventListener("click", startQuiz);
 //submitScr.addEventListener('click', loadscores());
 
