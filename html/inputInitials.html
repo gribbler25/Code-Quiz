@@ -12,8 +12,8 @@
 <body>
     <header class="flexHeader">
         <!--flex this-->
-        <div class="highscr">
-            <a href="./html/scores.html">View High Scores</a>
+        <div class="highscr" id="highscr">
+            <button class="hs-btn">View High Scores</button>
         </div>
         <div class="time" id="timer">
             <!--flex this-->
@@ -21,20 +21,30 @@
         </div>
     </header>
 
-    <mainclass="hs-input">
+    <section class="high-score" id="#high-score">
+        <h1> High Scores</h1>
+        <input type="text" id="hs" name="hs">
+
+        <div class="buttons">
+            <button id="back">Go Back</button>
+            <button id="clear">Clear High Scores</button>
+        </div>
+    </section>
+
+    <main class="hs-input">
         <!--flex direction: column-->
         <h1>All Done!</h1>
-        <form>
-            <label for="hs-in">Your final score is</label>
+        <section>
+            <h2>Your final score is</h2>
             <input type="text" id="hs-in" name="hs-in">
-        </form>
-        <div class="initials">
+        </section>
+        <form class="initials">
             <label for="init">Enter initials</label>
             <input type="text" id="init" name="init">
             <button id="submit">Submit</button>
-        </div>
-
-        </main>
+        </form>
+        <button class="hs-btn"><a href="../index.html">Back to Start</a></button>
+    </main>
 </body>
 <script type="text/javascript" src="../assets/JS/script.js"></script>
 

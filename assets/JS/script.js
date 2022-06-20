@@ -42,6 +42,7 @@ var pageContentEl = document.querySelector("#content");//container for listening
 var startBtn = document.querySelector("#start-quiz");//Start BUTTON on index.html
 var submitScr = document.querySelector("#submit");//the sumbit BUTTON on inputinitials.html
 
+var questionH2 = document.createElement("h2");//<h2> to hold QUESTIONS
 var timerEl = document.querySelector("#timer");//the TIMER DIV 
 var countdownEl = document.createElement("h3");//H3 ELEMENT for the COUNTER value
 
@@ -49,16 +50,17 @@ var quizEl = document.querySelector("#start-container");//container for QUIZ CON
 var questionEl = document.querySelector("#questions");//DIV FOR QUESTIONS
 var ulistEl = document.querySelector("#list");//<UL> ELEMENT
 
-
 var footerEl = document.querySelector("#correct");//FOOTER <DIV> for correct/ wrong content
 
-var counter = 10;
+var counter = 20;
 var qIndex = 0;
+
 
 var startQuiz = function () {
     //RESET values each re-start
-    counter = 10;
+    counter = 20;
     qIndex = 0;
+    document.querySelector("#high-score").style.display = "none";
     document.querySelector(".intro-start").style.display = "none";
 
     createCount();
@@ -87,63 +89,64 @@ var decrement = function () {
     }
     else {
         clearInterval(intervalId);
+        window.location.replace("./html/inputinitials.html");
     }
 };
 
 var createQuiz = function () { //function fromSTART to bring quiz content to the index.html page
-    var questionH2 = document.createElement("h2");
+
+    questionH2.textContent = "";
     if (counter > 0) {
         var currentQuest = questions[qIndex];//set the questions[index], the current queston, to a variable
-        questionH2.textContent = "";
         questionH2.textContent = currentQuest.title;
         questionEl.appendChild(questionH2);
-        //debugger;
+
         for (var i = 0; i < currentQuest.choices.length; i++) {
-            var listEl = document.createElement("li");//create the <LI> that holds the ANSWER choice
-            listEl.className = "list-item";
-            listEl.textContent = currentQuest.choices[i];
-            if (listEl.textContent.match(currentQuest.answer)) {//if content of the choices matches the content of the current index answer property..
-                listEl.setAttribute("data-id", "right")//then give a special attribute for marking correct answer
+            var btnEl = document.createElement("button");//create the <LI> that holds the ANSWER choice
+            btnEl.className = "list-item";
+            btnEl.textContent = currentQuest.choices[i];
+            if (btnEl.textContent.match(currentQuest.answer)) {//if content of the choices matches the content of the current index answer property..
+                btnEl.setAttribute("data-id", "correct")//then give a special attribute for marking correct answer
+                console.log(btnEl.getAttribute("data-id"));
             }
-            ulistEl.appendChild(listEl);
+            ulistEl.appendChild(btnEl);
         }
-        // choiceHandler();
-        listEl.addEventListener("click", function () {
+
+        ulistEl.addEventListener("click", function (event) {
             var correctTxt = document.createElement("h3");
-            var isId = listEl.getAttribute("data-id");
-            if (isId = "right") {//if there is a special data id attribute, "right"...
+            var isId = event.target.getAttribute("data-id");//from here down not working!!(skips to end of fxn)
+            if (isId) {//if there is a special data id attribute, "correct"...
                 correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
                 footerEl.appendChild(correctTxt);
+                //setTimeout(createQuiz(), 2000);
             }
             else {
                 correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
                 footerEl.appendChild(correctTxt);
+                //setTimeout(createQuiz(), 2000);
             }
+            event.stopPropagation();
+
         });
         qIndex++;
-        //createQuiz();
-    }
-    else {
-        window.location.replace("./html/inputinitials.html")
     }
 };
 
 
+// $("#hs-btn").click(function () {
+//     $("#high-score").addClass(".visible");
+// });
 
-// var choiceHandler = function () {
-//     var correctTxt = document.createElement("h3");
-//     var isId = listEl.getAttribute("data id");
-//     if (isId) {
-//         correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
-//         footerEl.appendChild(correctTxt);
-//     }
-//     else {
-//         correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
-//     }
-// };
+var highDisplay = function () {
+    document.querySelector("#high-score").style.display = "block";
+};
+document.querySelector("#hs-btn").addEventListener("click", highDisplay);
 
 startBtn.addEventListener("click", startQuiz);
-//submitScr.addEventListener('click', loadscores());
+
+//submitScr.addEventListener('click', loadscores);
+
+
 
 
 
