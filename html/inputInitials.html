@@ -13,20 +13,23 @@
     <header class="flexHeader">
         <!--flex this-->
         <div class="highscr" id="highscr">
-            <button class="hs-btn">View High Scores</button>
+            <button class="hs-btn1" id="hs-btn1">View High Scores</button>
         </div>
-        <div class="time" id="timer">
-            <!--flex this-->
-            <h3>Time:</h3> <!-- use js to make another <h3> here append to id"timer" with class='countdown' -->
-        </div>
+        <!-- <div class="time" id="timer">
+            
+        <h3>Time:</h3> 
+        </div> -->
     </header>
 
-    <section class="high-score" id="#high-score">
+    <section class="high-score1" id="high-score1">
         <h1> High Scores</h1>
-        <input type="text" id="hs" name="hs">
+        <div class="final" id="final">
+            <!--high score loads to here if greater than what is stored in localStorage
+            local storage .score needs to have initial value of 0-->
+
+        </div>
 
         <div class="buttons">
-            <button id="back">Go Back</button>
             <button id="clear">Clear High Scores</button>
         </div>
     </section>
@@ -34,9 +37,12 @@
     <main class="hs-input">
         <!--flex direction: column-->
         <h1>All Done!</h1>
-        <section>
+        <section class="final-section">
             <h2>Your final score is</h2>
-            <input type="text" id="hs-in" name="hs-in">
+            <div class="final" id="final">
+                <!--final score value here as textContent end of game -->
+            </div>
+
         </section>
         <form class="initials">
             <label for="init">Enter initials</label>
@@ -46,6 +52,7 @@
         <button class="hs-btn"><a href="../index.html">Back to Start</a></button>
     </main>
 </body>
+<script type="text/javascript" src="../assets/JS/initials.js"></script>
 <script type="text/javascript" src="../assets/JS/script.js"></script>
 
 </html>

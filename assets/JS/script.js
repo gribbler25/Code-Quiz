@@ -54,6 +54,9 @@ var footerEl = document.querySelector("#correct");//FOOTER <DIV> for correct/ wr
 
 var counter = 20;
 var qIndex = 0;
+var highDisplay = function () {
+    document.querySelector("#high-score").style.display = "block";
+};
 
 
 var startQuiz = function () {
@@ -90,6 +93,7 @@ var decrement = function () {
     else {
         clearInterval(intervalId);
         window.location.replace("./html/inputinitials.html");
+
     }
 };
 
@@ -137,9 +141,6 @@ var createQuiz = function () { //function fromSTART to bring quiz content to the
 //     $("#high-score").addClass(".visible");
 // });
 
-var highDisplay = function () {
-    document.querySelector("#high-score").style.display = "block";
-};
 document.querySelector("#hs-btn").addEventListener("click", highDisplay);
 
 startBtn.addEventListener("click", startQuiz);
