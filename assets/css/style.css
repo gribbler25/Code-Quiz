@@ -78,7 +78,8 @@ body {
 }
 
 .final,
-.final2 {
+.final2,
+.hs {
     height: 30px;
     width: 60px;
     background-color: bisque;

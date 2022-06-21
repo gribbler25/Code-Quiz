@@ -52,20 +52,20 @@ var questionEl = document.querySelector("#questions");//DIV FOR QUESTIONS
 var ulistEl = document.querySelector("#list");//<UL> ELEMENT
 
 var footerEl = document.querySelector("#correct");//FOOTER <DIV> for correct/ wrong content
+var highScore = document.querySelector("#hs"); //DIV for high score text
+var clearScore = document.querySelector("#clear");//BUTTON for clearing score
 
-
-var counter = 20;
-score = 0;
-qIndex = 0;
+var counter = 60;
+var score = 0;
+var qIndex = 0;
 var highDisplay = function () {
     document.querySelector("#high-score").style.display = "block";
 };
 
-
 var startQuiz = function () {
     console.log(questions);
     //RESET values each re-start
-    counter = 20;
+    counter = 60;
 
     document.querySelector("#high-score").style.display = "none";
     document.querySelector(".intro-start").style.display = "none";
@@ -75,11 +75,11 @@ var startQuiz = function () {
     countdown();
     // debugger;
     createQuiz();
+    window.alert("next one coming!");//the createQuiz doesn't render elements and allow for event 
+    setTimeout(createQuiz(), 3000);//listener until it runs through all these, even with alerts trying to pause the process...
+    window.alert("next one coming!");
+    setTimeout(createQuiz1(), 3000);//this is where user finally gets the question in front of them
 
-    // if (qIndex < questions.length - 1) {
-    //     qIndex++
-    //     createQuiz();
-    // }
     localStorage.setItem("score", JSON.stringify(score));
 };
 
@@ -107,23 +107,15 @@ var decrement = function () {
 };
 
 var createQuiz = function (qIndex) { //function fromSTART to bring quiz content to the index.html page
-    var qIndex = -1;
+    qIndex = 0;//if I don't put this declaraton here, the qIndex is undefined throughout and function doesn't work
     console.log(questions);
     console.log(qIndex);
-
-    console.log(qIndex);
-    // if (qIndex > questions.length - 1) {
-    //     window.location.replace("./html/inputinitials.html");
-    //     return qIndex;
-    // }
-
-    // var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
 
     ulistEl.textContent = "";
     questionH2.textContent = "";
     //debugger;
     if (qIndex < questions.length) {
-        qIndex = qIndex + 1;
+        // qIndex = qIndex + 1;
         console.log(qIndex);
         var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
         correctTxt.textContent = "";
@@ -133,7 +125,7 @@ var createQuiz = function (qIndex) { //function fromSTART to bring quiz content 
         questionEl.appendChild(questionH2);
 
         for (var i = 0; i < questions[qIndex].choices.length; i++) {
-            var btnEl = document.createElement("button");//create the <LI> that holds the ANSWER choice
+            var btnEl = document.createElement("button");//create the <BUTTON>s that holds the ANSWER choice
             btnEl.className = "list-item";
             btnEl.textContent = questions[qIndex].choices[i];
             if (btnEl.textContent.match(questions[qIndex].answer)) {//if content of the choices matches the content of the current index answer property..
@@ -152,33 +144,74 @@ var createQuiz = function (qIndex) { //function fromSTART to bring quiz content 
                 score++;
                 console.log(score);
 
-                createQuiz();
             }
             else {
                 correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
                 footerEl.appendChild(correctTxt);
                 counter = counter - 3;
-                console.log(qIndex + 1);
-
-                createQuiz();
-
             }
             event.stopPropagation();
-        })
+        });
         correctTxt.textContent = "";
-
+        //qIndex++;
+        console.log(qIndex);
+        return qIndex;
     }
-    // function nextQ() {
-    //     setTimeout(createQuiz(qIndex + 1), 2000)
-    // };
-    // timeout();
-
 };
 
+var createQuiz1 = function (qIndex) { //function fromSTART to bring quiz content to the index.html page
+    qIndex = 1;
+    console.log(questions);
+    console.log(qIndex);
 
-// $("#hs-btn").click(function () {
-//     $("#high-score").addClass(".visible");
-// });
+    ulistEl.textContent = "";
+    questionH2.textContent = "";
+    //debugger;
+    if (qIndex < questions.length) {
+        // qIndex = qIndex + 1;
+        console.log(qIndex);
+        var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
+        correctTxt.textContent = "";
+
+        questionH2.textContent = questions[qIndex].title;
+
+        questionEl.appendChild(questionH2);
+
+        for (var i = 0; i < questions[qIndex].choices.length; i++) {
+            var btnEl = document.createElement("button");//create the <BUTTON>s that holds the ANSWER choice
+            btnEl.className = "list-item";
+            btnEl.textContent = questions[qIndex].choices[i];
+            if (btnEl.textContent.match(questions[qIndex].answer)) {//if content of the choices matches the content of the current index answer property..
+                btnEl.setAttribute("data-id", "correct")//then give a special attribute for marking correct answer
+                console.log(btnEl.getAttribute("data-id"));
+            }
+            ulistEl.appendChild(btnEl);
+        }
+
+        ulistEl.addEventListener("click", function (event) {
+
+            var isId = event.target.getAttribute("data-id");
+            if (isId) {//if there is a special data id attribute, "correct"...
+                correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
+                footerEl.appendChild(correctTxt);
+                score++;
+                console.log(score);
+
+            }
+            else {
+                correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
+                footerEl.appendChild(correctTxt);
+                counter = counter - 3;
+            }
+            event.stopPropagation();
+        });
+        correctTxt.textContent = "";
+        //qIndex++;
+        console.log(qIndex);
+        return qIndex;
+    }
+};
+
 
 document.querySelector("#hs-btn").addEventListener("click", highDisplay);
 
@@ -186,7 +219,15 @@ startBtn.addEventListener("click", startQuiz);
 
 //submitScr.addEventListener('click', loadscores);
 
+clearScore.addEventListener("click", function () {
+    var none = document.createElement("h3");
+    none.textContent = "0";
+    highScore.appendChild(none);
 
-//  test function change() {
-//     pageContentEl.style.color = "blue";
-// };
+})
+
+
+// if (qIndex > questions.length - 1) {
+    //     window.location.replace("./html/inputinitials.html");
+    //     return qIndex;
+    // }
