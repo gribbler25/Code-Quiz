@@ -31,16 +31,17 @@ var questions = [
         answer: "console.log"
     }
 ];
-
-var User = //use this object to store high score/initials in local storage
+//setting the answers Obj and the user Obj to local storage..
+localStorage.setItem("questions", JSON.stringify(questions));
+var user = //use this object to store high score/initials in local storage
 {
     initials: "",
-    Score: 0
+    score: 0
 };//and at end of quiz SUBMIT button compare current submitted score to local storage score, post highest.
+localStorage.setItem("userStats", JSON.stringify(user));
 
 var pageContentEl = document.querySelector("#content");//container for listening for index.html content changes
 var startBtn = document.querySelector("#start-quiz");//Start BUTTON on index.html
-var submitScr = document.querySelector("#submit");//the sumbit BUTTON on inputinitials.html
 
 var questionH2 = document.createElement("h2");//<h2> to hold QUESTIONS
 var timerEl = document.querySelector("#timer");//the TIMER DIV 
@@ -52,27 +53,35 @@ var ulistEl = document.querySelector("#list");//<UL> ELEMENT
 
 var footerEl = document.querySelector("#correct");//FOOTER <DIV> for correct/ wrong content
 
+
 var counter = 20;
-var qIndex = 0;
+score = 0;
+qIndex = 0;
 var highDisplay = function () {
     document.querySelector("#high-score").style.display = "block";
 };
 
 
 var startQuiz = function () {
+    console.log(questions);
     //RESET values each re-start
     counter = 20;
-    qIndex = 0;
+
     document.querySelector("#high-score").style.display = "none";
     document.querySelector(".intro-start").style.display = "none";
 
     createCount();
 
     countdown();
-
+    // debugger;
     createQuiz();
 
-}
+    // if (qIndex < questions.length - 1) {
+    //     qIndex++
+    //     createQuiz();
+    // }
+    localStorage.setItem("score", JSON.stringify(score));
+};
 
 var createCount = function () {//function fromSTART (maybe move?)
     countdownEl.textContent = counter;
@@ -97,19 +106,37 @@ var decrement = function () {
     }
 };
 
-var createQuiz = function () { //function fromSTART to bring quiz content to the index.html page
+var createQuiz = function (qIndex) { //function fromSTART to bring quiz content to the index.html page
+    var qIndex = -1;
+    console.log(questions);
+    console.log(qIndex);
 
+    console.log(qIndex);
+    // if (qIndex > questions.length - 1) {
+    //     window.location.replace("./html/inputinitials.html");
+    //     return qIndex;
+    // }
+
+    // var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
+
+    ulistEl.textContent = "";
     questionH2.textContent = "";
-    if (counter > 0) {
-        var currentQuest = questions[qIndex];//set the questions[index], the current queston, to a variable
-        questionH2.textContent = currentQuest.title;
+    //debugger;
+    if (qIndex < questions.length) {
+        qIndex = qIndex + 1;
+        console.log(qIndex);
+        var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
+        correctTxt.textContent = "";
+
+        questionH2.textContent = questions[qIndex].title;
+
         questionEl.appendChild(questionH2);
 
-        for (var i = 0; i < currentQuest.choices.length; i++) {
+        for (var i = 0; i < questions[qIndex].choices.length; i++) {
             var btnEl = document.createElement("button");//create the <LI> that holds the ANSWER choice
             btnEl.className = "list-item";
-            btnEl.textContent = currentQuest.choices[i];
-            if (btnEl.textContent.match(currentQuest.answer)) {//if content of the choices matches the content of the current index answer property..
+            btnEl.textContent = questions[qIndex].choices[i];
+            if (btnEl.textContent.match(questions[qIndex].answer)) {//if content of the choices matches the content of the current index answer property..
                 btnEl.setAttribute("data-id", "correct")//then give a special attribute for marking correct answer
                 console.log(btnEl.getAttribute("data-id"));
             }
@@ -117,23 +144,35 @@ var createQuiz = function () { //function fromSTART to bring quiz content to the
         }
 
         ulistEl.addEventListener("click", function (event) {
-            var correctTxt = document.createElement("h3");
-            var isId = event.target.getAttribute("data-id");//from here down not working!!(skips to end of fxn)
+
+            var isId = event.target.getAttribute("data-id");
             if (isId) {//if there is a special data id attribute, "correct"...
                 correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
                 footerEl.appendChild(correctTxt);
-                //setTimeout(createQuiz(), 2000);
+                score++;
+                console.log(score);
+
+                createQuiz();
             }
             else {
                 correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
                 footerEl.appendChild(correctTxt);
-                //setTimeout(createQuiz(), 2000);
+                counter = counter - 3;
+                console.log(qIndex + 1);
+
+                createQuiz();
+
             }
             event.stopPropagation();
+        })
+        correctTxt.textContent = "";
 
-        });
-        qIndex++;
     }
+    // function nextQ() {
+    //     setTimeout(createQuiz(qIndex + 1), 2000)
+    // };
+    // timeout();
+
 };
 
 
@@ -146,9 +185,6 @@ document.querySelector("#hs-btn").addEventListener("click", highDisplay);
 startBtn.addEventListener("click", startQuiz);
 
 //submitScr.addEventListener('click', loadscores);
-
-
-
 
 
 //  test function change() {

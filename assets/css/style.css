@@ -77,10 +77,11 @@ body {
     align-items: center;
 }
 
-.final {
+.final,
+.final2 {
     height: 30px;
     width: 60px;
-    background-color: yellow;
+    background-color: bisque;
     color: blue;
     position: relative;
     left: 60px;
