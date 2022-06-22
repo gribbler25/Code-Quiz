@@ -56,16 +56,27 @@ body {
     margin-bottom: 10px;
 }
 
-.hs-btn {
-    margin-top: 10px;
-}
-
+.submit,
+.startQuiz,
+.clear,
 .hs-btn,
 .hs-btn1 {
+    text-decoration: none;
     width: 100px;
-    height: 30px;
+    height: 50px;
     color: blue;
-    font-size: .8em;
+    font-size: 1em;
+    margin: 10px;
+}
+
+.right-answer {
+    position: relative;
+}
+
+#correct {
+    position: absolute;
+    bottom: 0px;
+    font-size: 2em;
 }
 
 .hs-input {
@@ -95,21 +106,3 @@ body {
 .visible {
     display: block;
 }
-
-/*
-/* 
-var taskButtonHandler = function (event) {
-    targetEl = event.target;
-
-    if (targetEl.matches(".edit-btn")) {
-        console.log("edit", targetEl);
-        var taskId = targetEl.getAttribute("data-task-id");
-        editTask(taskId);
-
-    }
-    else if (targetEl.matches(".delete-btn")) {
-        console.log("delete", targetEl);
-        var taskId = targetEl.getAttribute("data-task-id");
-        deleteTask(taskId);
-    }
-}; */

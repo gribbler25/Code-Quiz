@@ -33,12 +33,12 @@ var questions = [
 ];
 //setting the answers Obj and the user Obj to local storage..
 localStorage.setItem("questions", JSON.stringify(questions));
-var user = //use this object to store high score/initials in local storage
+var user =
 {
     initials: "",
     score: 0
-};//and at end of quiz SUBMIT button compare current submitted score to local storage score, post highest.
-localStorage.setItem("userStats", JSON.stringify(user));
+};
+localStorage.setItem("userStats", JSON.stringify(user));//and at end of quiz SUBMIT button compare current submitted score to local storage score, post highest.
 
 var pageContentEl = document.querySelector("#content");//container for listening for index.html content changes
 var startBtn = document.querySelector("#start-quiz");//Start BUTTON on index.html
@@ -51,11 +51,12 @@ var quizEl = document.querySelector("#start-container");//container for QUIZ CON
 var questionEl = document.querySelector("#questions");//DIV FOR QUESTIONS
 var ulistEl = document.querySelector("#list");//<UL> ELEMENT
 
+var correctTxt = document.createElement("h3");
 var footerEl = document.querySelector("#correct");//FOOTER <DIV> for correct/ wrong content
 var highScore = document.querySelector("#hs"); //DIV for high score text
 var clearScore = document.querySelector("#clear");//BUTTON for clearing score
 
-var counter = 60;
+var counter = 30;
 var score = 0;
 var qIndex = 0;
 var highDisplay = function () {
@@ -63,9 +64,8 @@ var highDisplay = function () {
 };
 
 var startQuiz = function () {
-    console.log(questions);
     //RESET values each re-start
-    counter = 60;
+    counter = 30;
 
     document.querySelector("#high-score").style.display = "none";
     document.querySelector(".intro-start").style.display = "none";
@@ -73,14 +73,13 @@ var startQuiz = function () {
     createCount();
 
     countdown();
-    // debugger;
-    createQuiz();
-    window.alert("next one coming!");//the createQuiz doesn't render elements and allow for event 
-    setTimeout(createQuiz(), 3000);//listener until it runs through all these, even with alerts trying to pause the process...
-    window.alert("next one coming!");
-    setTimeout(createQuiz1(), 3000);//this is where user finally gets the question in front of them
 
-    localStorage.setItem("score", JSON.stringify(score));
+    qIndex = 0;
+    // debugger;
+    createQuiz(qIndex);
+
+
+
 };
 
 var createCount = function () {//function fromSTART (maybe move?)
@@ -107,18 +106,14 @@ var decrement = function () {
 };
 
 var createQuiz = function (qIndex) { //function fromSTART to bring quiz content to the index.html page
-    qIndex = 0;//if I don't put this declaraton here, the qIndex is undefined throughout and function doesn't work
+    //if I don't put this declaraton here, the qIndex is undefined throughout and function doesn't work
     console.log(questions);
     console.log(qIndex);
-
+    // footerEl.textContent = "";
     ulistEl.textContent = "";
     questionH2.textContent = "";
     //debugger;
     if (qIndex < questions.length) {
-        // qIndex = qIndex + 1;
-        console.log(qIndex);
-        var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
-        correctTxt.textContent = "";
 
         questionH2.textContent = questions[qIndex].title;
 
@@ -135,99 +130,56 @@ var createQuiz = function (qIndex) { //function fromSTART to bring quiz content 
             ulistEl.appendChild(btnEl);
         }
 
-        ulistEl.addEventListener("click", function (event) {
-
-            var isId = event.target.getAttribute("data-id");
-            if (isId) {//if there is a special data id attribute, "correct"...
-                correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
-                footerEl.appendChild(correctTxt);
-                score++;
-                console.log(score);
-
-            }
-            else {
-                correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
-                footerEl.appendChild(correctTxt);
-                counter = counter - 3;
-            }
-            event.stopPropagation();
-        });
         correctTxt.textContent = "";
-        //qIndex++;
-        console.log(qIndex);
-        return qIndex;
+
     }
-};
-
-var createQuiz1 = function (qIndex) { //function fromSTART to bring quiz content to the index.html page
-    qIndex = 1;
-    console.log(questions);
-    console.log(qIndex);
-
-    ulistEl.textContent = "";
-    questionH2.textContent = "";
-    //debugger;
-    if (qIndex < questions.length) {
-        // qIndex = qIndex + 1;
-        console.log(qIndex);
-        var correctTxt = document.createElement("h3");//for the CORRECT/WRONG text..
-        correctTxt.textContent = "";
-
-        questionH2.textContent = questions[qIndex].title;
-
-        questionEl.appendChild(questionH2);
-
-        for (var i = 0; i < questions[qIndex].choices.length; i++) {
-            var btnEl = document.createElement("button");//create the <BUTTON>s that holds the ANSWER choice
-            btnEl.className = "list-item";
-            btnEl.textContent = questions[qIndex].choices[i];
-            if (btnEl.textContent.match(questions[qIndex].answer)) {//if content of the choices matches the content of the current index answer property..
-                btnEl.setAttribute("data-id", "correct")//then give a special attribute for marking correct answer
-                console.log(btnEl.getAttribute("data-id"));
-            }
-            ulistEl.appendChild(btnEl);
+    else {
+        localStorage.setItem("score", JSON.stringify(score));
+        console.log(score);
+        var high = JSON.parse(localStorage.getItem("highScore"));
+        if (score > high || high == null) {
+            localStorage.setItem("highScore", JSON.stringify(score));
+            window.location.replace("./html/inputinitials.html");
         }
-
-        ulistEl.addEventListener("click", function (event) {
-
-            var isId = event.target.getAttribute("data-id");
-            if (isId) {//if there is a special data id attribute, "correct"...
-                correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
-                footerEl.appendChild(correctTxt);
-                score++;
-                console.log(score);
-
-            }
-            else {
-                correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
-                footerEl.appendChild(correctTxt);
-                counter = counter - 3;
-            }
-            event.stopPropagation();
-        });
-        correctTxt.textContent = "";
-        //qIndex++;
-        console.log(qIndex);
-        return qIndex;
+        else {
+            window.location.replace("./html/inputinitials.html");
+        }
     }
 };
+
+ulistEl.addEventListener("click", function (event) {
+
+    var isId = event.target.getAttribute("data-id");
+    if (isId) {//if there is a special data id attribute, "correct"...
+        var correctTxt = document.createElement("h3");
+        correctTxt.textContent = "CORRECT!";//then footer text content= "Correct"
+        footerEl.appendChild(correctTxt);
+        score++;
+        console.log(score);
+        console.log(correctTxt.textContent);
+
+    }
+    else {
+        var correctTxt = document.createElement("h3");
+        correctTxt.textContent = "WRONG!"; //else, footer textContent = "Wrong!"
+        footerEl.appendChild(correctTxt);
+        counter = counter - 3;
+        console.log(correctTxt.textContent);
+    }
+    event.stopPropagation();
+    qIndex++;
+    console.log(qIndex);
+    setTimeout(createQuiz(qIndex), 2000);
+});
 
 
 document.querySelector("#hs-btn").addEventListener("click", highDisplay);
 
 startBtn.addEventListener("click", startQuiz);
 
-//submitScr.addEventListener('click', loadscores);
 
-clearScore.addEventListener("click", function () {
-    var none = document.createElement("h3");
-    none.textContent = "0";
-    highScore.appendChild(none);
-
-})
-
-
-// if (qIndex > questions.length - 1) {
-    //     window.location.replace("./html/inputinitials.html");
-    //     return qIndex;
-    // }
+clearScore.addEventListener("click", function () {//clear scores from top L corner DIV box
+    // var none = document.createElement("h3");
+    highScore.textContent = "";
+    // highScore.appendChild(none);
+});
